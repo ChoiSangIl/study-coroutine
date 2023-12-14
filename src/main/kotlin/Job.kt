@@ -77,7 +77,7 @@ suspend fun main(){
     coroutineScope {
         val job = Job()
         launch (job){
-            delay(1000L)
+            customDelay(1000L)
             println("test1")
         }
 
