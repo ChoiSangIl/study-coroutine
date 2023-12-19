@@ -73,20 +73,44 @@ fun main(){
 
  */
 
-suspend fun main(){
-    coroutineScope {
-        val job = Job()
-        launch (job){
-            customDelay(1000L)
-            println("test1")
-        }
+suspend fun main(): Unit {
+    //chapter08Test1()
+    //chapter08Test2()
+    chapter08Test3()
+}
 
-        launch (job){
-            kotlinx.coroutines.delay(2000L)
-            println("test2")
-        }
+suspend fun chapter08Test1(): Unit = runBlocking {
+    val name = CoroutineName("MyCoroutine")
+    val job = Job()
 
-        job.complete()
-        job.join()
+    launch(name + job){
+        delay(1000L)
+
+        val childName = coroutineContext[CoroutineName]
+        println(childName == name) //true
+
+        val childJob = coroutineContext[Job]
+        println(childJob == job)    //false
+        println(childJob == job.children.first()) //true
+    }
+}
+
+suspend fun chapter08Test2() = runBlocking {
+    val name = CoroutineName("MyCoroutine")
+    val job = Job()
+
+    launch(name + job){
+        delay(1000L)
+        println("test1")
+    }
+}
+
+suspend fun chapter08Test3() = runBlocking {
+    val name = CoroutineName("MyCoroutine")
+    val job2: Job? = coroutineContext[Job]
+
+    launch(name + job2!!){
+        delay(1000L)
+        println("test1")
     }
 }
