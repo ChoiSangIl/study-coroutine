@@ -1,5 +1,3 @@
-import kotlinx.coroutines.delay
-
 fun interface FlowCollector {
     suspend fun emit(value: String)
 }
